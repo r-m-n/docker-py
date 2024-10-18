@@ -886,6 +886,7 @@ class ContainerCollection(Collection):
             container = self.create(image=image, command=command,
                                     detach=detach, **kwargs)
 
+        log.info("START CONTAINER")
         container.start()
 
         if detach:
