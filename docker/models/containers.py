@@ -1,4 +1,5 @@
 import copy
+import logging
 import ntpath
 from collections import namedtuple
 
@@ -15,6 +16,9 @@ from ..types import HostConfig, NetworkingConfig
 from ..utils import version_gte
 from .images import Image
 from .resource import Collection, Model
+
+
+log = logging.getLogger(__name__)
 
 
 class Container(Model):
@@ -883,10 +887,14 @@ class ContainerCollection(Collection):
 
         container.start()
 
+        log.info("CONTAINER STARTED")
+
         if detach:
             return container
 
         logging_driver = container.attrs['HostConfig']['LogConfig']['Type']
+
+        log.info("LOGGING DRIVER: %s", logging_driver)
 
         out = None
         if logging_driver == 'json-file' or logging_driver == 'journald':
@@ -894,7 +902,12 @@ class ContainerCollection(Collection):
                 stdout=stdout, stderr=stderr, stream=True, follow=True
             )
 
+        log.info("LOGGING OUT: %s", out)
+
         exit_status = container.wait()['StatusCode']
+
+        log.info("EXIT STATUS: %s", exit_status)
+
         if exit_status != 0:
             out = None
             if not kwargs.get('auto_remove'):
@@ -906,6 +919,8 @@ class ContainerCollection(Collection):
             raise ContainerError(
                 container, exit_status, command, image, out
             )
+
+        log.info("LOGGING OUT: %s", out)
 
         if stream or out is None:
             return out
