@@ -857,6 +857,7 @@ class ContainerCollection(Collection):
         stream = kwargs.pop('stream', False)
         detach = kwargs.pop('detach', False)
         platform = kwargs.get('platform', None)
+        sleep = kwargs.pop("sleep", 0)
 
         if detach and remove:
             if version_gte(self.client.api._version, '1.25'):
@@ -895,7 +896,6 @@ class ContainerCollection(Collection):
 
         import time
         log.info("logging_driver1: %s", logging_driver)
-        sleep = kwargs.pop("sleep", 0)
         if sleep:
             time.sleep(sleep)
         log.info("logging_driver2: %s", logging_driver)
