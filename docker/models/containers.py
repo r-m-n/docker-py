@@ -1,4 +1,5 @@
 import copy
+import logging
 import ntpath
 from collections import namedtuple
 
@@ -15,6 +16,9 @@ from ..types import HostConfig, NetworkingConfig
 from ..utils import version_gte
 from .images import Image
 from .resource import Collection, Model
+
+
+log = logging.getLogger(__name__)
 
 
 class Container(Model):
@@ -887,6 +891,11 @@ class ContainerCollection(Collection):
             return container
 
         logging_driver = container.attrs['HostConfig']['LogConfig']['Type']
+
+
+        import time
+        time.sleep(10)
+        log.info("logging_driver: %s", logging_driver)
 
         out = None
         if logging_driver == 'json-file' or logging_driver == 'journald':
