@@ -899,6 +899,7 @@ class ContainerCollection(Collection):
                 stdout=stdout, stderr=stderr, stream=True, follow=True
             )
 
+        log.info("START WAIT")
         exit_status = container.wait()['StatusCode']
         if exit_status != 0:
             out = None
