@@ -885,14 +885,6 @@ class ContainerCollection(Collection):
             container = self.create(image=image, command=command,
                                     detach=detach, **kwargs)
 
-        logging_driver = container.attrs['HostConfig']['LogConfig']['Type']
-        log.info("LOGGING DRIVER: %s", logging_driver)
-        out = None
-        if logging_driver == 'json-file' or logging_driver == 'journald':
-            out = container.logs(
-                stdout=stdout, stderr=stderr, stream=True, follow=True
-            )
-
         container.start()
 
         log.info("CONTAINER STARTED")
@@ -900,7 +892,7 @@ class ContainerCollection(Collection):
         if detach:
             return container
 
-        #logging_driver = container.attrs['HostConfig']['LogConfig']['Type']
+        logging_driver = container.attrs['HostConfig']['LogConfig']['Type']
 
         exit_status = container.wait()['StatusCode']
         log.info("EXIT STATUS 1: %s", exit_status)
@@ -911,11 +903,11 @@ class ContainerCollection(Collection):
         #         stdout=stdout, stderr=stderr, stream=True, follow=True
         #     )
 
-        #out = None
-        # if logging_driver == 'json-file' or logging_driver == 'journald':
-        #     out = container.logs(
-        #         stdout=stdout, stderr=stderr, stream=True, follow=True
-        #     )
+        out = None
+        if logging_driver == 'json-file' or logging_driver == 'journald':
+            out = container.logs(
+                stdout=stdout, stderr=stderr, stream=True, #follow=True
+            )
 
         log.info("LOGGING OUT: %s", out)
 
