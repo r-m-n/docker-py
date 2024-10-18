@@ -893,13 +893,6 @@ class ContainerCollection(Collection):
 
         logging_driver = container.attrs['HostConfig']['LogConfig']['Type']
 
-
-        import time
-        log.info("logging_driver1: %s", logging_driver)
-        if sleep:
-            time.sleep(sleep)
-        log.info("logging_driver2: %s", logging_driver)
-
         out = None
         if logging_driver == 'json-file' or logging_driver == 'journald':
             out = container.logs(
@@ -921,6 +914,13 @@ class ContainerCollection(Collection):
 
         if stream or out is None:
             return out
+
+        import time
+        log.info("START SLEEP")
+        if sleep:
+            time.sleep(sleep)
+        log.info("END SLEEP")
+
         return b''.join(out)
 
     def create(self, image, command=None, **kwargs):
