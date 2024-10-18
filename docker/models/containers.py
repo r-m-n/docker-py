@@ -916,7 +916,7 @@ class ContainerCollection(Collection):
             return out
 
         import time
-        log.info("START SLEEP")
+        log.info("START SLEEP %s", sleep)
         if sleep:
             time.sleep(sleep)
         log.info("END SLEEP")
