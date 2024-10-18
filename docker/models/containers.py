@@ -895,7 +895,9 @@ class ContainerCollection(Collection):
 
         import time
         log.info("logging_driver1: %s", logging_driver)
-        time.sleep(30)
+        sleep = kwargs.pop("sleep", 0)
+        if sleep:
+            time.sleep(sleep)
         log.info("logging_driver2: %s", logging_driver)
 
         out = None
