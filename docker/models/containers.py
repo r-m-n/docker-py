@@ -894,9 +894,16 @@ class ContainerCollection(Collection):
 
         logging_driver = container.attrs['HostConfig']['LogConfig']['Type']
 
+        exit_status = container.wait()['StatusCode']
+        log.info("EXIT STATUS 1: %s", exit_status)
+
         log.info("LOGGING DRIVER: %s", logging_driver)
 
-        out = None
+        out = container.logs(stdout=stdout, stderr=stderr)
+        #         stdout=stdout, stderr=stderr, stream=True, follow=True
+        #     )
+
+        #out = None
         # if logging_driver == 'json-file' or logging_driver == 'journald':
         #     out = container.logs(
         #         stdout=stdout, stderr=stderr, stream=True, follow=True
@@ -906,7 +913,7 @@ class ContainerCollection(Collection):
 
         exit_status = container.wait()['StatusCode']
 
-        log.info("EXIT STATUS: %s", exit_status)
+        log.info("EXIT STATUS 2: %s", exit_status)
 
         if exit_status != 0:
             out = None
