@@ -894,8 +894,9 @@ class ContainerCollection(Collection):
 
 
         import time
+        log.info("logging_driver1: %s", logging_driver)
         time.sleep(30)
-        log.info("logging_driver: %s", logging_driver)
+        log.info("logging_driver2: %s", logging_driver)
 
         out = None
         if logging_driver == 'json-file' or logging_driver == 'journald':
