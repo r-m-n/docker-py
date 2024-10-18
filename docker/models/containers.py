@@ -897,10 +897,10 @@ class ContainerCollection(Collection):
         log.info("LOGGING DRIVER: %s", logging_driver)
 
         out = None
-        if logging_driver == 'json-file' or logging_driver == 'journald':
-            out = container.logs(
-                stdout=stdout, stderr=stderr, stream=True, follow=True
-            )
+        # if logging_driver == 'json-file' or logging_driver == 'journald':
+        #     out = container.logs(
+        #         stdout=stdout, stderr=stderr, stream=True, follow=True
+        #     )
 
         log.info("LOGGING OUT: %s", out)
 
